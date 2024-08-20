@@ -1,0 +1,14 @@
+{
+    "player_id": "0676fc39-36da-40e7-b431-3c679646c586",
+    "name": "liam",
+    "age": 44,
+    "health": 70,
+    "happiness": 70,
+    "financial_status": 41928,
+    "skills": {
+        "education": "Trade School",
+        "work_experience": 0
+    },
+    "education_level": "None",
+    "game_progress": {}
+}

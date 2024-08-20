@@ -1,0 +1,22 @@
+[
+    {
+        "event_id": "event_001",
+        "event_type": "Financial",
+        "description": "Unexpected Car Repair",
+        "impact": {
+            "financial_status": -500
+        },
+        "probability": 0.3,
+        "age_range": [16, 50]
+    },
+    {
+        "event_id": "event_002",
+        "event_type": "Health",
+        "description": "Caught the Flu",
+        "impact": {
+            "health": -10
+        },
+        "probability": 0.2,
+        "age_range": [16, 30]
+    }
+]
