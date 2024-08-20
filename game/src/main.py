@@ -16,6 +16,7 @@ GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 BLUE = (0, 0, 255)
 
+# Status bar
 def draw_status_bar(x, y, value, max_value, color):
     """Draws a status bar representing a value out of a maximum."""
     pygame.draw.rect(WIN, color, (x, y, 200, 20))
