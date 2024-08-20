@@ -2,58 +2,239 @@
     "High School": {
         "Retail Associate": {
             "Income": {
-                "Starting": 22000,
-                "Increase_Rate": 0.04,
+                "Starting": 20000,
+                "Increase_Rate": 0.05,
                 "Cap": 32000
             },
             "Happiness": {
+                "Rate": 0.02
+            },
+            "Health": {
+                "Rate": 0.02
+            }
+        },
+        "Construction Worker": {
+            "Income": {
+                "Starting": 36000,
+                "Increase_Rate": 0.08,
+                "Cap": 55000
+            },
+            "Happiness": {
                 "Rate": -0.04
+            },
+            "Health": {
+                "Rate": -0.06
+            }
+        },
+        "Server": {
+            "Income": {
+                "Starting": 27000,
+                "Increase_Rate": 0.06,
+                "Cap": 48000
+            },
+            "Happiness": {
+                "Rate": -0.01
             },
             "Health": {
                 "Rate": 0.03
             }
-        }, 
-        "Construction Worker": {
+        },
+        "Barista": {
             "Income": {
-                "Starting": 36000,
-                "Increase_Rate": 0.05,
-                "Cap": 62000
+                "Starting": 24000,
+                "Increase_Rate": 0.03,
+                "Cap": 38000
             },
             "Happiness": {
-                "Rate": -0.04
+                "Rate": 0.01
             },
             "Health": {
-                "Rate": -0.04
+                "Rate": 0.01
             }
-        }, 
-        "Food Service Employee": {
-            "Income": {
-                "Starting": 36000,
-                "Increase_Rate": 0.05,
-                "Cap": 62000
-            },
-            "Happiness": {
-                "Rate": -0.04
-            },
-            "Health": {
-                "Rate": -0.04
-            }
-        }, 
+        },
         "Warehouse Worker": {
             "Income": {
-                "Starting": 36000,
-                "Increase_Rate": 0.05,
-                "Cap": 62000
+                "Starting": 32000,
+                "Increase_Rate": 0.07,
+                "Cap": 51000
             },
             "Happiness": {
-                "Rate": -0.04
+                "Rate": -0.01
             },
             "Health": {
-                "Rate": -0.04
+                "Rate": 0.01
             }
         }
     },
-    "Trade School": ["Technician", "Skilled Trade Worker"],
-    "College": ["Software Engineer", "Accountant", "Manager", "Business Analyst"],
-    "Bootcamp": ["Junior Developer", "IT Support Specialist"]
+    "Trade/Vocational School": {
+        "Truck Driver": {
+            "Income": {
+                "Starting": 46000,
+                "Increase_Rate": 0.07,
+                "Cap": 96000
+            },
+            "Happiness": {
+                "Rate": -0.02
+            },
+            "Health": {
+                "Rate": -0.03
+            }
+        },
+        "Plumber": {
+            "Income": {
+                "Starting": 32000,
+                "Increase_Rate": 0.07,
+                "Cap": 51000
+            },
+            "Happiness": {
+                "Rate": -0.01
+            },
+            "Health": {
+                "Rate": -0.01
+            }
+        },
+        "Electrician": {
+            "Income": {
+                "Starting": 32000,
+                "Increase_Rate": 0.07,
+                "Cap": 51000
+            },
+            "Happiness": {
+                "Rate": -0.01
+            },
+            "Health": {
+                "Rate": 0.00
+            }
+        }
+    },
+    "College": {
+        "Software Engineer": {
+            "Income": {
+                "Starting": 68000,
+                "Increase_Rate": 0.09,
+                "Cap": 173000,
+                "Variance": 0.23
+            },
+            "Happiness": {
+                "Rate": 0.03
+            },
+            "Health": {
+                "Rate": -0.01
+            }
+        },
+        "Accountant": {
+            "Income": {
+                "Starting": 58000,
+                "Increase_Rate": 0.05,
+                "Cap": 114000,
+                "Variance": 0.10
+            },
+            "Happiness": {
+                "Rate": 0.02
+            },
+            "Health": {
+                "Rate": -0.01
+            }
+        },
+        "Project Manager": {
+            "Income": {
+                "Starting": 62000,
+                "Increase_Rate": 0.08,
+                "Cap": 134000,
+                "Variance": 0.14
+            },
+            "Happiness": {
+                "Rate": -0.04
+            },
+            "Health": {
+                "Rate": -0.04
+            }
+        },
+        "Human Resources Specialist": {
+            "Income": {
+                "Starting": 51000,
+                "Increase_Rate": 0.06,
+                "Cap": 89000,
+                "Variance": 0.05
+            },
+            "Happiness": {
+                "Rate": 0.07
+            },
+            "Health": {
+                "Rate": 0.07
+            }
+        },
+        "Social Media Manager": {
+            "Income": {
+                "Starting": 56000,
+                "Increase_Rate": 0.04,
+                "Cap": 98000,
+                "Variance": 0.08
+            },
+            "Happiness": {
+                "Rate": 0.08
+            },
+            "Health": {
+                "Rate": 0.05
+            }
+        },
+        "Civil Engineer": {
+            "Income": {
+                "Starting": 72000,
+                "Increase_Rate": 0.04,
+                "Cap": 132000,
+                "Variance": 0.05
+            },
+            "Happiness": {
+                "Rate": 0.03
+            },
+            "Health": {
+                "Rate": 0.04
+            }
+        }
+    },
+    "Bootcamp": {
+        "Web Developer": {
+            "Income": {
+                "Starting": 53000,
+                "Increase_Rate": 0.06,
+                "Cap": 13000,
+                "Variance": 0.12
+            },
+            "Happiness": {
+                "Rate": 0.03
+            },
+            "Health": {
+                "Rate": -0.01
+            }
+        },
+        "IT Specialist": {
+            "Income": {
+                "Starting": 55000,
+                "Increase_Rate": 0.05,
+                "Cap": 104000,
+                "Variance": 0.06
+            },
+            "Happiness": {
+                "Rate": 0.05
+            },
+            "Health": {
+                "Rate": -0.01
+            }
+        },
+        "Data Analyst": {
+            "Income": {
+                "Starting": 61000,
+                "Increase_Rate": 0.06,
+                "Cap": 114000,
+                "Variance": 0.06
+            },
+            "Happiness": {
+                "Rate": 0.03
+            },
+            "Health": {
+                "Rate": -0.01
+            }
+        }
+    }
 }

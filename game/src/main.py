@@ -23,13 +23,6 @@ BLACK = (0, 0, 0)
 BG_BLUE = (111, 128, 145)
 
 
-# Status bar
-def draw_status_bar(x, y, value, max_value, color):
-    """Draws a status bar representing a value out of a maximum."""
-    pygame.draw.rect(WIN, color, (x, y, 200, 20))
-    pygame.draw.rect(WIN, WHITE, (x, y, 200 * (1 - value / max_value), 20))
-
-
 def handle_turn(player):
     """Handles the logic for each turn (year) in the game."""
     events = load_events()
@@ -194,11 +187,6 @@ def main_game_loop(player):
         # Draw the game background
         WIN.fill(BG_BLUE)
         
-        # Draw status bars for Health, Happiness, and Financial Status
-        draw_status_bar(50, 50, player['health'], 100, RED)
-        draw_status_bar(50, 100, player['happiness'], 100, GREEN)
-        draw_status_bar(50, 150, player['financial_status'], 1000000, BLUE)  # Assuming 1,000,000 is max financial status
-        
         # Update the display
         pygame.display.update()
         
@@ -218,14 +206,13 @@ def main():
     phases_screen(WIN, WIDTH, HEIGHT, BG_BLUE)
     
     status_screen(WIN, WIDTH, HEIGHT, BG_BLUE)
-    
-    dashboard_screen(WIN, WIDTH, HEIGHT, BG_BLUE)
-
 
     # Load or create a player profile
     player = load_player()
     if player is None:
         player = create_player(player_name)
+    
+    dashboard_screen(WIN, WIDTH, HEIGHT, BG_BLUE, player)
 
     # Start the main game loop
     main_game_loop(player)
