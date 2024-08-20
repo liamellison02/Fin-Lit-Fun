@@ -52,4 +52,4 @@ class StudentLoan(Liability):
 
     @tag('OnNewMonth')
     def increment_interest(self):
-        self.value = self.value + (self.value*self.interest_rate)
+        self.value += self.value * self.interest_rate
