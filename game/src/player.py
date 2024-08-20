@@ -5,6 +5,7 @@ import uuid
 # Path to the player data JSON file
 DATA_PATH = "../data/player.json"
 
+
 def load_player():
     """Load the player profile from a JSON file."""
     try:
@@ -15,10 +16,12 @@ def load_player():
         print(f"Failed to load player data: {e}")
     return None
 
+
 def save_player(player_data):
     """Save the player profile to a JSON file."""
     with open(DATA_PATH, "w") as file:
         json.dump(player_data, file, indent=4)
+
 
 def create_player(name):
     """Create a new player profile."""
