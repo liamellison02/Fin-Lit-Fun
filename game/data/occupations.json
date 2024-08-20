@@ -1,0 +1,59 @@
+{
+    "High School": {
+        "Retail Associate": {
+            "Income": {
+                "Starting": 22000,
+                "Increase_Rate": 0.04,
+                "Cap": 32000
+            },
+            "Happiness": {
+                "Rate": -0.04
+            },
+            "Health": {
+                "Rate": 0.03
+            }
+        }, 
+        "Construction Worker": {
+            "Income": {
+                "Starting": 36000,
+                "Increase_Rate": 0.05,
+                "Cap": 62000
+            },
+            "Happiness": {
+                "Rate": -0.04
+            },
+            "Health": {
+                "Rate": -0.04
+            }
+        }, 
+        "Food Service Employee": {
+            "Income": {
+                "Starting": 36000,
+                "Increase_Rate": 0.05,
+                "Cap": 62000
+            },
+            "Happiness": {
+                "Rate": -0.04
+            },
+            "Health": {
+                "Rate": -0.04
+            }
+        }, 
+        "Warehouse Worker": {
+            "Income": {
+                "Starting": 36000,
+                "Increase_Rate": 0.05,
+                "Cap": 62000
+            },
+            "Happiness": {
+                "Rate": -0.04
+            },
+            "Health": {
+                "Rate": -0.04
+            }
+        }
+    },
+    "Trade School": ["Technician", "Skilled Trade Worker"],
+    "College": ["Software Engineer", "Accountant", "Manager", "Business Analyst"],
+    "Bootcamp": ["Junior Developer", "IT Support Specialist"]
+}

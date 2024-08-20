@@ -1,5 +1,6 @@
 import random
 import json
+from utils import prompt_user
 
 
 def load_events():
@@ -29,12 +30,14 @@ def early_life_phase(player_data):
 
     if player_data['age'] == 18:
         # Educational decision at age 18
-        print("Choose your educational path:")
-        print("1. High School Only (Immediate work)")
-        print("2. Trade School (2 years)")
-        print("3. College (4 years)")
-        print("4. Bootcamp (1 year)")
-        choice = input("Enter the number of your choice: ")
+        prompt = "Choose your educational path:"
+        options = [
+            "High School Only (Immediate work)", 
+            "Trade school; 2 years; Cost: $2000",
+            "University/College; 4 years; Cost: $40000",
+            "Bootcamp; 1 year; Cost: $10000"
+        ]
+        choice = prompt_user(prompt, options)
 
         # TODO:
         """ 
@@ -45,8 +48,11 @@ def early_life_phase(player_data):
 
             case "1":
                 """Start working immediately"""
+                hs_options = ["Retail Associate", "Construction Worker", "Food Service Employee", "Warehouse Worker"]
+                occupation = prompt_user("Choose your career path:", hs_options)
                 player_data['skills']['education'] = "High School"
-                player_data['financial_status'] += 5000
+                player_data['occupation'] = occupation
+                player_data['income'] = 35000
 
             case "2":
                 """Trade school route; 2 years; Cost: $2000"""
@@ -81,22 +87,33 @@ def young_adult_phase(player_data):
     player_data['age'] += 1
 
     if player_data['age'] == 24:
-        # Career decision at age 24
+        """New occupation decision at 24"""
+
+        """
+            Occupations available at 24 are based on education decision at 18.
+        """
+        prompt = "Choose your career path:"
+        options = {
+            "High School": ["Retail Associate", "Construction Worker", "Food Service Employee", "Warehouse Worker"],
+            "Trade School": ["Technician", "Skilled Trade Worker"],
+            "College": ["Software Engineer", "Accountant", "Manager", "Business Analyst"],
+            "Bootcamp": ["Junior Developer", "IT Support Specialist"]
+        }
+
         match player_data['skills']['education']:
 
             case "High School":
-                print("Choose your career path:")
-                print("1. Retail Worker")
-                print("2. Factory Worker")
-                choice = input("Enter the number of your choice: ")
-                while choice != "1" and choice != "2":  # Input validation
-                    choice = input("Enter the number of your choice (1 or 2): ")
-                if choice == "1":
-                    player_data['financial_status'] += 20000
-                    player_data['happiness'] += 5
-                elif choice == "2":
-                    player_data['financial_status'] += 25000
-                    player_data['happiness'] -= 10
+                choice = prompt_user(prompt, options["High School"])
+
+                match choice:
+                    case "Retail Associate":
+                        """Retail Associate; """
+                        player_data['financial_status'] += 20000
+                        player_data['happiness'] += 5
+
+                    case "Construction Worker":
+                        player_data['financial_status'] += 25000
+                        player_data['happiness'] -= 10
 
             case "Trade School":
                 print("Choose your career path:")
@@ -114,7 +131,7 @@ def young_adult_phase(player_data):
 
             case "College":
                 print("Choose your career path:")
-                print("1. Junior Developer")
+                print("1. Software Engineer")
                 print("2. Accountant")
                 choice = input("Enter the number of your choice: ")
 
@@ -130,7 +147,7 @@ def young_adult_phase(player_data):
 
             case "Bootcamp":
                 print("Choose your career path:")
-                print("1. Software Engineer")
+                print("1. Junior Developer")
                 print("2. IT Support Specialist")
                 choice = input("Enter the number of your choice: ")
 
