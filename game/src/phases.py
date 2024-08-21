@@ -97,6 +97,7 @@ def mid_life_phase(player_data):
 
         investments = load_json(DataPath.INVESTMENT)
         choice = prompt_user("Investment Opportunity: ", investments)
+        choice["current_value"] = choice["initial_value"]
 
         player_data["assets"].append(choice)
         
