@@ -1,7 +1,6 @@
 import random
-
 from player import save_player
-from phases import trigger_random_events, early_life_phase, young_adult_phase, mid_life_phase
+from phases import trigger_random_events
 
 
 def handle_turn(player, events, occupations):

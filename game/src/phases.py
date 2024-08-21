@@ -1,5 +1,4 @@
 import random
-
 from utils import prompt_user, load_json, DataPath
 
 

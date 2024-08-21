@@ -1,7 +1,6 @@
 import uuid
 import json
-
-from utils import load_json, DataPath
+from utils import DataPath
 
 
 def save_player(player_data):

@@ -1,10 +1,9 @@
 import pygame
 import pygame.gfxdraw
 import sys
-
-from pygame.locals import QUIT, KEYDOWN, K_s, K_l, MOUSEBUTTONDOWN, K_RETURN, K_BACKSPACE
-from player import create_player, save_player
-from utils import draw_status_bar, draw_button, load_json, DataPath
+from pygame.locals import QUIT, KEYDOWN, K_s, MOUSEBUTTONDOWN
+from player import save_player
+from utils import draw_status_bar, load_json, DataPath
 from phases import early_life_phase, young_adult_phase, mid_life_phase
 from handle import handle_turn
 

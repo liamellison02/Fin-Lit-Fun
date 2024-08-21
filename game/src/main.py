@@ -1,13 +1,10 @@
 import pygame
 import sys
-from player import create_player, save_player
-
-from pygame.locals import QUIT, KEYDOWN, K_s, K_l, MOUSEBUTTONDOWN, K_RETURN, K_BACKSPACE
+from player import create_player
+from pygame.locals import QUIT, KEYDOWN, MOUSEBUTTONDOWN, K_RETURN, K_BACKSPACE
 from ui.guide import guide_screen, phases_screen, status_screen
 from ui.dashboard import dashboard_screen
-
-from utils import prompt_user, load_json, DataPath
-
+from utils import load_json, DataPath
 pygame.init()
 
 WIDTH, HEIGHT = 800, 600
