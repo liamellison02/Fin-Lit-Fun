@@ -5,7 +5,7 @@ import sys
 from pygame.locals import QUIT, KEYDOWN, K_s, K_l, MOUSEBUTTONDOWN, K_RETURN, K_BACKSPACE
 from player import create_player, save_player
 from utils import draw_status_bar, draw_button, load_json, DataPath
-
+from phases import early_life_phase, young_adult_phase, mid_life_phase
 from handle import handle_turn
 
 FONT_VIRGIL = str(DataPath.FONT_VIRGIL.value)
@@ -66,14 +66,14 @@ def draw_game_menu(win, width, height, margin, player):
     left_box.blit(age_number, age_number_rect)
 
     # Set up font for occupation label
-    occupation_label = font.render("Occupation:", True, label_color)
+    occupation_label = font.render("Occupation", True, label_color)
     padding = 10  # General padding for the contents
     top_left_margin = 20  # Additional margin for top and left
 
     bank_label_rect = pygame.Rect(0, 0, 0, 0)  # Dummy rect for position
 
     # Position the occupation label below the age label
-    occupation_label_rect = occupation_label.get_rect(topleft=(padding + top_left_margin, age_label_rect.bottom + padding + 20))
+    occupation_label_rect = occupation_label.get_rect(topleft=(padding + top_left_margin, age_label_rect.bottom + padding))
     left_box.blit(occupation_label, occupation_label_rect)
 
     # Render the player's occupation from JSON
@@ -81,19 +81,24 @@ def draw_game_menu(win, width, height, margin, player):
     occupation_rect = occupation.get_rect(topleft=(occupation_label_rect.right + padding, occupation_label_rect.top))
     left_box.blit(occupation, occupation_rect)
 
-    # Draw "Continue" button
+    # Draw "Continue" button with rounded corners
     button_font = pygame.font.Font(FONT_VIRGIL, 24)
     button_text = button_font.render("Continue", True, label_color)
     
     # Position the button right next to the age number
-    button_rect = pygame.Rect(age_number_rect.right + padding, age_number_rect.top, 200, 60)
-    pygame.draw.rect(left_box, BLUE, button_rect)
+    button_rect = pygame.Rect(age_number_rect.right + padding + 40, age_number_rect.top - 10, 185, 60)
+
+    # Draw the rounded rectangle button
+    draw_rounded_rect(left_box, BLUE, button_rect, corner_radius=20)
+    
+    # Center the button text inside the rounded rectangle
     left_box.blit(button_text, (button_rect.x + (button_rect.width - button_text.get_width()) // 2, 
                                 button_rect.y + (button_rect.height - button_text.get_height()) // 2))
 
     win.blit(left_box, (left_box_x, left_box_y))
 
     return button_rect  # Return the button's rect for click detection
+
 
 
     
@@ -188,7 +193,7 @@ def draw_dashboard_screen(win, width, height, bg_color, player):
 
     return button_rect  # Return the button rect
 
-def draw_prompt_menu(win, width, height, margin, prompt, options):
+def draw_prompt_menu(win, width, height, margin, prompt, options, player):
     """Displays a decision prompt with clickable options centered on the screen."""
     font = pygame.font.Font(FONT_VIRGIL, 24)
     label_color = (255, 255, 255)
@@ -232,8 +237,11 @@ def draw_prompt_menu(win, width, height, margin, prompt, options):
 
     return option_rects
 
-
-
+def display_message(win, message, font, position, color=(255, 255, 255)):
+    """Displays a message on the screen at the specified position."""
+    text_surface = font.render(message, True, color)
+    win.blit(text_surface, position)
+    pygame.display.update()
 
 
 
@@ -244,6 +252,8 @@ def dashboard_screen(win, width, height, bg_color, player):
     events = load_json(DataPath.EVENTS)
     occupations = load_json(DataPath.OCCUPATIONS)
 
+    font = pygame.font.Font(FONT_VIRGIL, 24)  # Set up the font
+    
     clock = pygame.time.Clock()
 
     decision_made = False
@@ -258,32 +268,28 @@ def dashboard_screen(win, width, height, bg_color, player):
             if event.type == KEYDOWN:
                 if event.key == K_s:
                     save_player(player)
-                    print("Game saved!")
+                    display_message(win, "Game saved!", font, (50, 50))  # Display save message
             if event.type == MOUSEBUTTONDOWN:
-                # Check if an educational decision prompt is active
-                if options_rects:
+                if len(options_rects) > 0:
                     for option_rect, option in options_rects:
                         if option_rect.collidepoint(event.pos):
                             decision_data = option
                             decision_made = True
+                            options_rects = []
                             break
-                # Check if the "Continue" button is clicked
-                elif button_rect and button_rect.collidepoint(event.pos):  
-                    if player['age'] == 18:
-                        # Educational decision at age 18
-                        prompt = "Choose your educational path:"
-                        options = load_json(DataPath.EDUCATION)
-                        options_rects = draw_prompt_menu(win, width, height, 20, prompt, options)
-                    else:
-                        # Handle a turn in the game
-                        player = handle_turn(player, events, occupations)
-                        # Redraw the screen with the updated player data
-                        button_rect = draw_dashboard_screen(win, width, height, bg_color, player)  # Update button_rect after redraw
+                elif button_rect and button_rect.collidepoint(event.pos):
+                    player = handle_turn(player, events, occupations)
+                    button_rect = draw_dashboard_screen(win, width, height, bg_color, player)
 
         if decision_made:
-            # Handle the decision made by the user
+            if player["age"] < 23:
+                player = early_life_phase(player)
+            elif player["age"] < 31:
+                player = young_adult_phase(player)
+            else:
+                player = mid_life_phase(player)
+            
             if decision_data["id"] == "High School":
-                """Start working immediately"""
                 occupations = load_json(DataPath.OCCUPATIONS)
                 occupation_options = occupations[0]["occupations"]
                 options_rects = draw_prompt_menu(win, width, height, 20, "Choose your career path:", occupation_options)
@@ -296,12 +302,10 @@ def dashboard_screen(win, width, height, bg_color, player):
                 income_key = "Starting Income" if "Starting Income" in decision_data else "Est. Start Income"
                 player['income'] = decision_data[income_key]
             
-            decision_made = False  # Reset decision_made to allow for future decisions
-            options_rects = []  # Clear options_rects after handling the decision
+            decision_made = False
+            options_rects = []
             
-            # Redraw the screen with updated player data
             button_rect = draw_dashboard_screen(win, width, height, bg_color, player)
 
         pygame.display.update()
-        clock.tick(1)  # Slow down the game loop to one tick per second
-
+        clock.tick(1)

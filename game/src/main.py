@@ -16,12 +16,27 @@ pygame.display.set_caption("FinLitFun")
 
 # Colors
 WHITE = (255, 255, 255)
-GREEN = (0, 255, 0)
+GREEN = (0, 200, 83)
 RED = (255, 0, 0)
 BLUE = (0, 0, 255)
 BLACK = (0, 0, 0)
 BG_BLUE = (111, 128, 145)
+ORANGE = (255, 111, 0)
 
+def draw_rounded_rect(surface, color, rect, corner_radius):
+    """Draws a rectangle with rounded corners."""
+    pygame.gfxdraw.aacircle(surface, rect.x + corner_radius, rect.y + corner_radius, corner_radius, color)
+    pygame.gfxdraw.aacircle(surface, rect.right - corner_radius - 1, rect.y + corner_radius, corner_radius, color)
+    pygame.gfxdraw.aacircle(surface, rect.x + corner_radius, rect.bottom - corner_radius - 1, corner_radius, color)
+    pygame.gfxdraw.aacircle(surface, rect.right - corner_radius - 1, rect.bottom - corner_radius - 1, corner_radius, color)
+
+    pygame.gfxdraw.filled_circle(surface, rect.x + corner_radius, rect.y + corner_radius, corner_radius, color)
+    pygame.gfxdraw.filled_circle(surface, rect.right - corner_radius - 1, rect.y + corner_radius, corner_radius, color)
+    pygame.gfxdraw.filled_circle(surface, rect.x + corner_radius, rect.bottom - corner_radius - 1, corner_radius, color)
+    pygame.gfxdraw.filled_circle(surface, rect.right - corner_radius - 1, rect.bottom - corner_radius - 1, corner_radius, color)
+
+    pygame.draw.rect(surface, color, rect.inflate(-2*corner_radius, 0))
+    pygame.draw.rect(surface, color, rect.inflate(0, -2*corner_radius))
 
 def draw_title_screen():
     """Displays the title screen with a 'Play Now' button."""
@@ -34,11 +49,12 @@ def draw_title_screen():
     # Draw the image above the "Play Now" button
     WIN.blit(logo, (WIDTH // 2 - logo.get_width() // 2, HEIGHT // 1.4 - logo.get_height()))
 
-    # Draw "Play Now" button
+    # Draw "Play Now" button with rounded corners
     button_font = pygame.font.Font(None, 50)
     button_text = button_font.render("Play Now", True, WHITE)
     button_rect = pygame.Rect(WIDTH // 2 - 100, HEIGHT // 2 + 90, 200, 60)
-    pygame.draw.rect(WIN, BLUE, button_rect)
+    corner_radius = 20
+    draw_rounded_rect(WIN, ORANGE, button_rect, corner_radius)
     WIN.blit(button_text, (button_rect.x + (button_rect.width - button_text.get_width()) // 2, 
                            button_rect.y + (button_rect.height - button_text.get_height()) // 2))
 

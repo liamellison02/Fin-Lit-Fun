@@ -3,12 +3,13 @@
         "id": "Car",
         "type": "Vehicle",
         "initial_value": 30000,
-        "rate": -0.10
+        "rate": -0.10,
+        "volatility": 0.12
     },
     {
         "id": "House",
         "type": "Real Estate",
-        "initial_value": 200000,
+        "initial_value": 180000,
         "rate": 0.03,
         "volatility": 0.01
     },

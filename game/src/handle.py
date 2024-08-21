@@ -29,12 +29,12 @@ def handle_turn(player, events, occupations):
 
     player = trigger_random_events(player, events)
     
-    if player["age"] < 23:
-        player = early_life_phase(player)
-    elif player["age"] < 31:
-        player = young_adult_phase(player)
-    else:
-        player = mid_life_phase(player)
+    # if player["age"] < 23:
+    #     player = early_life_phase(player)
+    # elif player["age"] < 31:
+    #     player = young_adult_phase(player)
+    # else:
+    #     player = mid_life_phase(player)
     
     save_player(player)
     

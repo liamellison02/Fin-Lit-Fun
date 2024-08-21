@@ -16,15 +16,17 @@ def trigger_random_events(player_data, events):
     return player_data
 
 
-def early_life_phase(player_data):
+def early_life_phase(player_data, *kwargs):
     """Handles decisions and events in the Early Life phase (Ages 16-22)."""
     print("Early Life Phase")
 
     if player_data['age'] == 18:
         # Educational decision at age 18
-        prompt = "Choose your educational path:"
+        # prompt = "Choose your educational path:"
         options = load_json(DataPath.EDUCATION)
-        choice = prompt_user(prompt, options)
+        # choice = prompt_user(prompt, options)
+        
+        choice = kwargs.items()[0]
 
         # TODO:
         """ 
