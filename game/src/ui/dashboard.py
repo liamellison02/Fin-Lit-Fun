@@ -66,14 +66,14 @@ def draw_game_menu(win, width, height, margin, player):
     left_box.blit(age_number, age_number_rect)
 
     # Set up font for occupation label
-    occupation_label = font.render("Occupation", True, label_color)
+    occupation_label = font.render("Occupation:", True, label_color)
     padding = 10  # General padding for the contents
     top_left_margin = 20  # Additional margin for top and left
 
     bank_label_rect = pygame.Rect(0, 0, 0, 0)  # Dummy rect for position
 
     # Position the occupation label below the age label
-    occupation_label_rect = occupation_label.get_rect(topleft=(padding + top_left_margin, age_label_rect.bottom + padding))
+    occupation_label_rect = occupation_label.get_rect(topleft=(padding + top_left_margin, age_label_rect.bottom + padding + 20))
     left_box.blit(occupation_label, occupation_label_rect)
 
     # Render the player's occupation from JSON

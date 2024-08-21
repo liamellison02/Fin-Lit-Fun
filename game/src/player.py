@@ -13,9 +13,6 @@ def save_player(player_data):
 
 def create_player(name):
     """Create a new player profile."""
-    assets = load_json(DataPath.ASSETS)
-    debit_card = assets[0]
-    debit_card["current_value"] = debit_card["initial_value"]
 
     player_data = {
         "player_id": str(uuid.uuid4()),  # Generate a unique ID for the player
@@ -31,7 +28,7 @@ def create_player(name):
         },
         "education_level": "None",
         "occupation": "None",
-        "assets": [debit_card],
+        "assets": [],
         "liabilities": [],
         "status_effects": [],
         "game_progress": {}
