@@ -40,16 +40,14 @@ def draw_rounded_rect(surface, color, rect, corner_radius):
 
 def draw_title_screen():
     """Displays the title screen with a 'Play Now' button."""
-    WIN.fill(BG_BLUE)  # Set background color to BG_BLUE
+    WIN.fill(BG_BLUE)  
     
-    # Draw title text
+
     logo = pygame.image.load('../assets/logo.png')
-    logo = pygame.transform.scale(logo, (400, 400))  # Resize the image as needed
+    logo = pygame.transform.scale(logo, (400, 400))  
     
-    # Draw the image above the "Play Now" button
     WIN.blit(logo, (WIDTH // 2 - logo.get_width() // 2, HEIGHT // 1.4 - logo.get_height()))
 
-    # Draw "Play Now" button with rounded corners
     button_font = pygame.font.Font(None, 50)
     button_text = button_font.render("Play Now", True, WHITE)
     button_rect = pygame.Rect(WIDTH // 2 - 100, HEIGHT // 2 + 90, 200, 60)
@@ -74,7 +72,7 @@ def title_screen():
                 sys.exit()
             if event.type == MOUSEBUTTONDOWN:
                 if button_rect.collidepoint(event.pos):
-                    return  # Exit the title screen and start the game
+                    return  
 
         pygame.display.update()
 
@@ -91,7 +89,6 @@ def get_player_name():
     cursor_visible = True
     cursor_timer = pygame.time.get_ticks()
 
-    # Calculate the centered positions
     input_box = pygame.Rect(0, 0, 175, 50)
     input_box.center = (WIDTH // 2, HEIGHT // 2)
 
@@ -104,14 +101,12 @@ def get_player_name():
                 pygame.quit()
                 sys.exit()
             if event.type == MOUSEBUTTONDOWN:
-                # If the user clicks inside the input box
                 if input_box.collidepoint(event.pos):
                     active = not active
                 else:
                     active = False
                 color = color_active if active else color_inactive
 
-                # If the user clicks the submit button
                 if submit_button.collidepoint(event.pos):
                     return player_name
 
@@ -126,22 +121,19 @@ def get_player_name():
 
         WIN.fill(BG_BLUE)
 
-        # Draw the input box with white background
         pygame.draw.rect(WIN, WHITE, input_box)
         txt_surface = font.render(player_name, True, color)
         width = max(200, txt_surface.get_width() + 10)
         input_box.w = width
-        input_box.centerx = WIDTH // 2  # Adjust the center based on the new width
+        input_box.centerx = WIDTH // 2  
         WIN.blit(txt_surface, (input_box.x + 5, input_box.y + 5))
         pygame.draw.rect(WIN, color, input_box, 2)
 
-        # Draw the submit button
         pygame.draw.rect(WIN, color_inactive, submit_button)
         button_text = button_font.render("Submit", True, BLACK)
         WIN.blit(button_text, (submit_button.x + (submit_button.width - button_text.get_width()) // 2, 
                                submit_button.y + (submit_button.height - button_text.get_height()) // 2))
 
-        # Blinking cursor logic
         if active:
             current_time = pygame.time.get_ticks()
             if current_time - cursor_timer > 500:
@@ -152,7 +144,6 @@ def get_player_name():
                 cursor_surface = font.render('|', True, color)
                 WIN.blit(cursor_surface, (input_box.x + 5 + txt_surface.get_width(), input_box.y + 5))
 
-        # Display the instructions to the player
         instruction_text = font.render("Enter your name:", True, BLACK)
         WIN.blit(instruction_text, (WIDTH // 2 - instruction_text.get_width() // 2, HEIGHT // 2 - 120))
 
@@ -160,20 +151,16 @@ def get_player_name():
 
 
 def main():
-    # Display the title screen
     title_screen()
 
-    # Get the player's name via an input box
     player_name = get_player_name()
 
-    # Guide the player with instructions
     guide_screen(WIN, WIDTH, HEIGHT, BG_BLUE)
 
     phases_screen(WIN, WIDTH, HEIGHT, BG_BLUE)
     
     status_screen(WIN, WIDTH, HEIGHT, BG_BLUE)
 
-    # Load or create a player profile
     player = load_json(DataPath.PLAYER)
     if player is None:
         player = create_player(player_name)

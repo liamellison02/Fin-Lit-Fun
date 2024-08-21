@@ -66,15 +66,15 @@ def draw_status_bar(surface, x, y, value, max_value, color):
 
 def draw_button(button_font_size: int, win: pygame.surface.Surface, width: int, height: int, button_color, left: int, top: int):
     button_font = pygame.font.Font(None, button_font_size)
-    button_text = button_font.render("Play Now", True, (255, 255, 255))  # Assuming you want white text
+    button_text = button_font.render("Play Now", True, (255, 255, 255))  
     
-    # Define the button's rectangle dimensions
+  
     button_rect = pygame.Rect(width // 2 - 100, height // 2 + 90, 200, 60)
     
-    # Draw the button (rectangle)
-    pygame.draw.rect(win, button_color, button_rect)  # Corrected line
+   
+    pygame.draw.rect(win, button_color, button_rect)  
     
-    # Blit the button text onto the button, centering it
+    
     win.blit(button_text, (button_rect.x + (button_rect.width - button_text.get_width()) // 2, 
                            button_rect.y + (button_rect.height - button_text.get_height()) // 2))
     

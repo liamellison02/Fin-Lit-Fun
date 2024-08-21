@@ -252,7 +252,7 @@ def dashboard_screen(win, width, height, bg_color, player):
     events = load_json(DataPath.EVENTS)
     occupations = load_json(DataPath.OCCUPATIONS)
 
-    font = pygame.font.Font(FONT_VIRGIL, 24)  # Set up the font
+    font = pygame.font.Font(FONT_VIRGIL, 24)  
     
     clock = pygame.time.Clock()
 
@@ -268,7 +268,7 @@ def dashboard_screen(win, width, height, bg_color, player):
             if event.type == KEYDOWN:
                 if event.key == K_s:
                     save_player(player)
-                    display_message(win, "Game saved!", font, (50, 50))  # Display save message
+                    display_message(win, "Game saved!", font, (50, 50))  
             if event.type == MOUSEBUTTONDOWN:
                 if len(options_rects) > 0:
                     for option_rect, option in options_rects:

@@ -107,9 +107,3 @@ def mid_life_phase(player_data):
           f"Bank: ${player_data['bank']}")
 
     return player_data
-
-
-# You can add more phases here following the same structure:
-# def mid_life_phase(player_data):
-# def pre_retirement_phase(player_data):
-# def retirement_phase(player_data):

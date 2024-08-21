@@ -9,7 +9,7 @@ def handle_turn(player, events, occupations):
     player["age"] += 1
 
     
-    # TODO - Fix this putrid code
+    # TODO - Fix this putrid code || Agreed!
     i = 0
     while i < 4:
         if player["skills"]["education"] == occupations[i]["id"]:

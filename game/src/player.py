@@ -15,7 +15,7 @@ def create_player(name):
     """Create a new player profile."""
 
     player_data = {
-        "player_id": str(uuid.uuid4()),  # Generate a unique ID for the player
+        "player_id": str(uuid.uuid4()),  
         "name": name,
         "age": 16,
         "health": 90,
