@@ -1,3 +1,5 @@
+import random
+
 from player import save_player
 from phases import trigger_random_events, early_life_phase, young_adult_phase, mid_life_phase
 
@@ -6,6 +8,7 @@ def handle_turn(player, events, occupations):
     """Handles the logic for each turn (year) in the game."""
     player["age"] += 1
 
+    
     # TODO - Fix this putrid code
     i = 0
     while i < 4:
@@ -22,8 +25,7 @@ def handle_turn(player, events, occupations):
     player["bank"] += player["income"]
 
     for asset in player["assets"]:
-        
-        player["bank"] += asset["value"] * asset["rate"]
+        asset["current_value"] += asset["current_value"] * (asset["rate"] + (asset["volatility"] * random.uniform(-1.0, 1.0)))
 
     player = trigger_random_events(player, events)
     

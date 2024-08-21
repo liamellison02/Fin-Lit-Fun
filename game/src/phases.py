@@ -100,9 +100,6 @@ def mid_life_phase(player_data):
         choice["current_value"] = choice["initial_value"]
 
         player_data["assets"].append(choice)
-        
-        if choice["id"] == "Stocks":
-            player_data["bank"] += choice["return"] * random.uniform(0.8, 1.25)
 
     print(f"Age: {player_data['age']}, "
           f"Bank: ${player_data['bank']}")
