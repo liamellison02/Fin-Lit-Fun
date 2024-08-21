@@ -1,12 +1,12 @@
 import pygame
 import sys
-from player import create_player, load_player, save_player
-from phases import load_events, trigger_random_event, early_life_phase, young_adult_phase, mid_life_phase
+from player import create_player, save_player
+
 from pygame.locals import QUIT, KEYDOWN, K_s, K_l, MOUSEBUTTONDOWN, K_RETURN, K_BACKSPACE
 from ui.guide import guide_screen, phases_screen, status_screen
 from ui.dashboard import dashboard_screen
 
-from utils import prompt_user
+from utils import prompt_user, load_json, DataPath
 
 pygame.init()
 
@@ -21,23 +21,6 @@ RED = (255, 0, 0)
 BLUE = (0, 0, 255)
 BLACK = (0, 0, 0)
 BG_BLUE = (111, 128, 145)
-
-
-def handle_turn(player):
-    """Handles the logic for each turn (year) in the game."""
-    events = load_events()
-    player = trigger_random_event(player, events)
-
-    if player['age'] < 23:
-        player = early_life_phase(player)
-    elif player['age'] < 31:
-        player = young_adult_phase(player)
-    else:
-        player = mid_life_phase(player)
-    
-    save_player(player)
-    
-    return player
 
 
 def draw_title_screen():
@@ -78,7 +61,6 @@ def title_screen():
                     return  # Exit the title screen and start the game
 
         pygame.display.update()
-        
 
 
 def get_player_name():
@@ -161,38 +143,6 @@ def get_player_name():
         pygame.display.flip()
 
 
-
-
-
-def main_game_loop(player):
-    """Main game loop after the title screen."""
-    clock = pygame.time.Clock()
-
-    while True:
-        for event in pygame.event.get():
-            if event.type == QUIT:
-                pygame.quit()
-                sys.exit()
-            if event.type == KEYDOWN:
-                if event.key == K_s:
-                    save_player(player)
-                    print("Game saved!")
-                if event.key == K_l:
-                    player = load_player()
-                    print("Game loaded!")
-                    
-        # Handle a turn in the game
-        player = handle_turn(player)
-
-        # Draw the game background
-        WIN.fill(BG_BLUE)
-        
-        # Update the display
-        pygame.display.update()
-        
-        clock.tick(1)  # Slow down the game loop to one tick per second
-
-
 def main():
     # Display the title screen
     title_screen()
@@ -208,16 +158,11 @@ def main():
     status_screen(WIN, WIDTH, HEIGHT, BG_BLUE)
 
     # Load or create a player profile
-    player = load_player()
+    player = load_json(DataPath.PLAYER)
     if player is None:
         player = create_player(player_name)
     
     dashboard_screen(WIN, WIDTH, HEIGHT, BG_BLUE, player)
 
-    # Start the main game loop
-    main_game_loop(player)
-
-
 if __name__ == "__main__":
     main()
-

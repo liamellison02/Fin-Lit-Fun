@@ -1,8 +1,15 @@
 import pygame
 import pygame.gfxdraw
 import sys
-from pygame.locals import QUIT
-from utils import draw_status_bar 
+
+from pygame.locals import QUIT, KEYDOWN, K_s, K_l, MOUSEBUTTONDOWN, K_RETURN, K_BACKSPACE
+from player import create_player, save_player
+from utils import draw_status_bar, draw_button, load_json, DataPath
+
+from handle import handle_turn
+
+FONT_VIRGIL = str(DataPath.FONT_VIRGIL.value)
+
 
 def draw_rounded_rect(surface, color, rect, corner_radius):
     """Draws a rectangle with rounded corners."""
@@ -18,6 +25,7 @@ def draw_rounded_rect(surface, color, rect, corner_radius):
 
     pygame.draw.rect(surface, color, rect.inflate(-2*corner_radius, 0))
     pygame.draw.rect(surface, color, rect.inflate(0, -2*corner_radius))
+
 
 def draw_game_menu(win, width, height, margin, player):
     """Draws the game menu box (left half of the screen)."""
@@ -36,29 +44,44 @@ def draw_game_menu(win, width, height, margin, player):
     inner_rect = border_rect.inflate(-4, -4)  # Reduce size for the inner box
     draw_rounded_rect(left_box, (111, 128, 145), inner_rect, corner_radius=20)
 
-    font = pygame.font.Font(None, 32)
+    font = pygame.font.Font(FONT_VIRGIL, 32)
 
     label_color = (255, 255, 255)  # White color for labels
+    BLUE = (0, 0, 255)  # Blue color for buttons
 
     # Set up font for age label
     age_label = font.render("Age", True, label_color)
     padding = 10  # General padding for the contents
     top_left_margin = 20  # Additional margin for top and left
 
-    financial_status_label_rect = pygame.Rect(0, 0, 0, 0)  # Dummy rect for position
+    bank_label_rect = pygame.Rect(0, 0, 0, 0)  # Dummy rect for position
 
     # Position the age label with extra margin from the top and left
-    age_label_rect = age_label.get_rect(topleft=(padding + top_left_margin, financial_status_label_rect.bottom + padding + top_left_margin))
+    age_label_rect = age_label.get_rect(topleft=(padding + top_left_margin, bank_label_rect.bottom + padding + top_left_margin))
     left_box.blit(age_label, age_label_rect)
 
     # Render the player's age from JSON
-    age_number = font.render(str(player['age']), True, label_color)
+    age_number = font.render(str(player["age"]), True, label_color)
     age_number_rect = age_number.get_rect(topleft=(age_label_rect.right + padding, age_label_rect.top))
     left_box.blit(age_number, age_number_rect)
 
+    # Draw "Continue" button
+    button_font = pygame.font.Font(FONT_VIRGIL, 24)
+    button_text = button_font.render("Continue", True, label_color)
+    
+    # Position the button right next to the age number
+    button_rect = pygame.Rect(age_number_rect.right + padding, age_number_rect.top, 200, 60)
+    pygame.draw.rect(left_box, BLUE, button_rect)
+    left_box.blit(button_text, (button_rect.x + (button_rect.width - button_text.get_width()) // 2, 
+                                button_rect.y + (button_rect.height - button_text.get_height()) // 2))
+
     win.blit(left_box, (left_box_x, left_box_y))
 
+    return button_rect  # Return the button's rect for click detection
 
+
+    
+   
 def draw_status_menu(win, width, height, margin, player):
     """Draws the status menu box (top right corner with rounded corners)."""
     top_right_box_width = width // 2 - 2 * margin  # Increased width
@@ -79,7 +102,7 @@ def draw_status_menu(win, width, height, margin, player):
     draw_rounded_rect(top_right_box, (111, 128, 145), inner_rect, corner_radius=20)
     
     # Set up font
-    font = pygame.font.Font(None, 24)
+    font = pygame.font.Font(FONT_VIRGIL, 24)
     label_color = (255, 255, 255)  # White color for labels
     
     # Render Health label with padding
@@ -92,15 +115,15 @@ def draw_status_menu(win, width, height, margin, player):
     happiness_label_rect = happiness_label.get_rect(topleft=(padding, health_label_rect.bottom + padding))
     top_right_box.blit(happiness_label, happiness_label_rect)
 
-    # Render Financial Status label with padding
-    financial_status_label = font.render("Bank Account:", True, label_color)
-    financial_status_number = font.render(str(player['financial_status']), True, label_color)
-    financial_status_label_rect = financial_status_label.get_rect(topleft=(padding, happiness_label_rect.bottom + padding))
-    top_right_box.blit(financial_status_label, financial_status_label_rect)
+    # Render Bank label with padding
+    bank_label = font.render("Bank Account:", True, label_color)
+    bank_number = font.render(f'${player["bank"]:.2f}', True, label_color)
+    bank_label_rect = bank_label.get_rect(topleft=(padding, happiness_label_rect.bottom + padding))
+    top_right_box.blit(bank_label, bank_label_rect)
     
-    # Render the financial status number from JSON
-    financial_status_number_rect = financial_status_number.get_rect(topleft=(financial_status_label_rect.right + padding, happiness_label_rect.bottom + padding))
-    top_right_box.blit(financial_status_number, financial_status_number_rect)
+    # Render the Bank number from JSON
+    bank_number_rect = bank_number.get_rect(topleft=(bank_label_rect.right + padding, happiness_label_rect.bottom + padding))
+    top_right_box.blit(bank_number, bank_number_rect)
     
     # Align the status bars to the right of the box, considering padding
     bar_x = top_right_box_width - (220 + padding)  # Adjust this value to align the bars to the right
@@ -110,7 +133,6 @@ def draw_status_menu(win, width, height, margin, player):
     draw_status_bar(top_right_box, bar_x, happiness_label_rect.top, player['happiness'], 100, (0, 255, 0))  # Green for Happiness
     
     win.blit(top_right_box, (top_right_box_x, top_right_box_y))
-
 
 
 def draw_detail_menu(win, width, height, margin):
@@ -132,28 +154,53 @@ def draw_detail_menu(win, width, height, margin):
     
     win.blit(bottom_right_box, (bottom_right_box_x, bottom_right_box_y))
 
+
 def draw_dashboard_screen(win, width, height, bg_color, player):
     """Draws the dashboard screen with three sections."""
     win.fill(bg_color)  # Set background color
     
     margin = 10
     
-    # Draw the game menu, status menu, and detail menu
-    draw_game_menu(win, width, height, margin, player)
-    draw_status_menu(win, width, height, margin, player)  # Pass player object here
+    # Draw the game menu and get the button rect
+    button_rect = draw_game_menu(win, width, height, margin, player)
+    
+    # Draw the status menu and detail menu
+    draw_status_menu(win, width, height, margin, player)
     draw_detail_menu(win, width, height, margin)
     
     pygame.display.update()
 
+    return button_rect  # Return the button rect
+
+
+
 def dashboard_screen(win, width, height, bg_color, player):
     """Handles the dashboard screen logic."""
-    draw_dashboard_screen(win, width, height, bg_color, player)
+    button_rect = draw_dashboard_screen(win, width, height, bg_color, player)
     
+    events = load_json(DataPath.EVENTS)
+    occupations = load_json(DataPath.OCCUPATIONS)
+
+    clock = pygame.time.Clock()
+
     while True:
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
-            # Add logic for handling interactions here (e.g., button clicks)
+            if event.type == KEYDOWN:
+                if event.key == K_s:
+                    save_player(player)
+                    print("Game saved!")
+            if event.type == MOUSEBUTTONDOWN:
+                if button_rect and button_rect.collidepoint(event.pos):  # Check if the click is within the button's rect
+                    # Handle a turn in the game
+                    player = handle_turn(player, events, occupations)
+                    # Redraw the screen with the updated player data
+                    button_rect = draw_dashboard_screen(win, width, height, bg_color, player)  # Update button_rect after redraw
         
+        # Update the display
         pygame.display.update()
+        
+        clock.tick(1)  # Slow down the game loop to one tick per second
+

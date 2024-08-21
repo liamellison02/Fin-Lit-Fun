@@ -12,7 +12,7 @@ def draw_guide_screen(WIN, WIDTH, HEIGHT, BG_COLOR):
         "Welcome to FinLitFun!",
         "Objective:",
         "The goal of FinLitFun is to retire as early as possible while maximizing",
-        "your health, happiness, and financial status. Make wise decisions",
+        "your health, happiness, and Bank. Make wise decisions",
         "throughout your life to secure your future!",
         "Your player will start at age 16 with a randomly generated profile.",
         "Click next to view the game phases and make decisions that will",
@@ -111,7 +111,7 @@ def draw_status_screen(WIN, WIDTH, HEIGHT, BG_COLOR):
         "Managing Status:",
         "   - Health: Stay healthy by balancing work and personal time.",
         "   - Happiness: Enjoy life by taking vacations and engaging in hobbies.",
-        "   - Financial Status: Build wealth by managing assets and debts.",
+        "   - Bank: Build wealth by managing assets and debts.",
         "",
         "Decision Making:",
         "   - Make career, education, and investment choices wisely.",
@@ -122,7 +122,7 @@ def draw_status_screen(WIN, WIDTH, HEIGHT, BG_COLOR):
         "   - Handle unexpected events that can change your life.",
         "",
         "Winning the Game:",
-        "Aim to retire as early as possible with the highest health, happiness, and financial status.",
+        "Aim to retire as early as possible with the highest health, happiness, and Bank.",
         "Decisions throughout the game will shape your player's life and determine success.",
         "Good luck! When you are ready, hit Enter to start the game.",
         "Press Enter to start the game..."
@@ -139,7 +139,7 @@ def draw_status_screen(WIN, WIDTH, HEIGHT, BG_COLOR):
     pygame.display.update()
 
 def status_screen(WIN, WIDTH, HEIGHT, BG_COLOR):
-    """Handles the managing status, decision making, and random events screen logic."""
+    """Handles the guide for status, decision making, and random events logic."""
     draw_status_screen(WIN, WIDTH, HEIGHT, BG_COLOR)
 
     while True:

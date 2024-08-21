@@ -1,0 +1,33 @@
+[
+    {
+        "id": "001",
+        "name": "Debit Card",
+        "type": "Liquid",
+        "initial_value": 200,
+        "maintenance_cost": 0,
+        "annual_percent_yield": 0.005
+    },
+    {
+        "id": "002",
+        "name": "Car",
+        "type": "Vehicle",
+        "initial_value": 30000,
+        "maintenance_cost": 1000,
+        "depreciation_rate": -0.10
+    },
+    {
+        "id": "003",
+        "name": "House",
+        "type": "Real Estate",
+        "initial_value": 200000,
+        "maintenance_cost": 2000,
+        "appreciation_rate": 0.03
+    },
+    {
+        "id": "004",
+        "name": "Stock Portfolio",
+        "type": "Investment",
+        "initial_value": 50000,
+        "return_rate": 0.07
+    }
+]

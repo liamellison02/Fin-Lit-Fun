@@ -1,0 +1,23 @@
+[
+  {
+    "id": "001",
+    "name": "Mortgage",
+    "initial_balance": 180000,
+    "interest_rate": 0.04,
+    "monthly_payment": 1000
+  },
+  {
+    "id": "002",
+    "name": "Car Loan",
+    "initial_balance": 25000,
+    "interest_rate": 0.05,
+    "monthly_payment": 500
+  },
+  {
+    "id": "003",
+    "name": "Student Loan",
+    "initial_balance": 40000,
+    "interest_rate": 0.045,
+    "monthly_payment": 300
+  }
+  ]

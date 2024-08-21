@@ -1,22 +1,137 @@
 [
     {
-        "event_id": "event_001",
+        "event_id": "001",
         "event_type": "Financial",
-        "description": "Unexpected Car Repair",
+        "name": "Unexpected Car Repair",
+        "description": "",
         "impact": {
-            "financial_status": -500
+            "bank": -500
         },
-        "probability": 0.3,
-        "age_range": [16, 50]
+        "length": 1,
+        "probability": 0.08,
+        "age_range": [16, 99]
     },
     {
-        "event_id": "event_002",
+        "event_id": "002",
         "event_type": "Health",
-        "description": "Caught the Flu",
+        "name": "Caught the Flu",
+        "description": "",
         "impact": {
             "health": -10
         },
-        "probability": 0.2,
+        "length": 1,
+        "probability": 0.02,
         "age_range": [16, 30]
+    },
+    {
+        "event_id": "003",
+        "event_type": "Financial",
+        "name": "Won a Small Lottery",
+        "description": "",
+        "impact": {
+            "bank": 1000
+        },
+        "length": 1,
+        "probability": 0.01,
+        "age_range": [18, 99]
+    },
+    {
+        "event_id": "004",
+        "event_type": "Health",
+        "name": "Gym Membership",
+        "description": "",
+        "impact": {
+            "bank": -200,
+            "health": 5
+        },
+        "length": 3,
+        "probability": 0.05,
+        "age_range": [18, 50]
+    },
+    {
+        "event_id": "005",
+        "event_type": "Happiness",
+        "name": "Vacation with Friends",
+        "description": "",
+        "impact": {
+            "bank": -800,
+            "happiness": 10
+        },
+        "probability": 0.03,
+        "age_range": [18, 45]
+    },
+    {
+        "event_id": "006",
+        "event_type": "Health",
+        "name": "Minor Injury",
+        "description": "",
+        "impact": {
+            "bank": -400,
+            "health": -15
+        },
+        "length": 1,
+        "probability": 0.02,
+        "age_range": [16, 60]
+    },
+    {
+        "event_id": "007",
+        "event_type": "Financial",
+        "name": "Work Bonus",
+        "description": "Company had record breaking margins this year. Everyone got an extra bonus!",
+        "impact": {
+            "bank": 1000
+        },
+        "length": 1,
+        "probability": 0.07,
+        "age_range": [22, 65]
+    },
+    {
+        "event_id": "008",
+        "event_type": "Happiness",
+        "name": "Family Reunion",
+        "description": "You were able to make the annual family reunion this year! Remember to avoid that one annoying aunt.",
+        "impact": {
+            "happiness": 5
+        },
+        "length": 1,
+        "probability": 0.04,
+        "age_range": [20, 99]
+    },
+    {
+        "event_id": "010",
+        "event_type": "Financial",
+        "name": "Lost Wallet",
+        "description": "Lost your wallet? Or did it get stolen? Who knows.",
+        "impact": {
+            "bank": -150
+        },
+        "length": 1,
+        "probability": 0.02,
+        "age_range": [16, 99]
+    },
+    {
+        "event_id": "011",
+        "event_type": "Happiness",
+        "name": "Pet Adoption",
+        "description": "A pet shelter caught your attention on your drive home.",
+        "impact": {
+            "bank": -250,
+            "happiness": 20
+        },
+        "length": 10,
+        "probability": 0.05,
+        "age_range": [18, 65]
+    },
+    {
+        "event_id": "012",
+        "event_type": "Health",
+        "name": "Healthy Eating Habits",
+        "description": "You decided to try a new diet.",
+        "impact": {
+            "health": 7
+        },
+        "length": 2,
+        "probability": 0.05,
+        "age_range": [18, 50]
     }
 ]

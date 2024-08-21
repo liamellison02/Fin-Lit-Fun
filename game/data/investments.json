@@ -1,0 +1,23 @@
+[
+    {
+        "id": "Stocks",
+        "description": "Buy Stocks (High risk, high return)",
+        "cost": 10000,
+        "return": 13000,
+        "time": 10
+    },
+    {
+        "id": "Real Estate",
+        "description": "Invest in Real Estate (Moderate risk, steady return)",
+        "cost": 200000,
+        "profit": 20,
+        "time": 20
+    },
+    {
+        "id": "Retirement Plan",
+        "description": "Start a Retirement Plan (Low risk, secure return)",
+        "cost": 10000,
+        "profit": 30,
+        "time": 40
+    }
+]

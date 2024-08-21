@@ -1,0 +1,53 @@
+[
+    {
+        "id": "High School",
+        "Occupations": [
+            "Retail Associate", 
+            "Construction Worker", 
+            "Server", 
+            "Barista",
+            "Warehouse Worker"
+        ],
+        "Starting Income": 31000,
+        "Cost": 0,
+        "Duration (Years)": 0
+    },
+    {
+        "id": "Trade School",
+        "Occupations": [
+            "Electrician", 
+            "Plumber", 
+            "HVAC Technician", 
+            "Welder", 
+            "Carpenter"
+        ],
+        "Starting Income": 54000,
+        "Cost": 4000,
+        "Duration (Years)": 2
+    },
+    {
+        "id": "University/College",
+        "Occupations": [
+            "Software Engineer", 
+            "Accountant", 
+            "Project Manager", 
+            "Social Media Manager", 
+            "Human Resources Specialist", 
+            "Civil Engineer"
+        ],
+        "Est. Start Income": 64000,
+        "Cost": 40000,
+        "Duration (Years)": 4
+    },
+    {
+        "id": "Bootcamp",
+        "Occupations": [
+            "Web Developer", 
+            "IT Specialist",
+            "Data Analyst"
+        ],
+        "Starting Income": 48000,
+        "Cost": 10000,
+        "Duration (Years)": 1
+    }
+]

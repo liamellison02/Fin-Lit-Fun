@@ -1,43 +1,41 @@
-import json
-import os
 import uuid
+import json
 
-# Path to the player data JSON file
-DATA_PATH = "../data/player.json"
-
-
-def load_player():
-    """Load the player profile from a JSON file."""
-    try:
-        if os.path.exists(DATA_PATH):
-            with open(DATA_PATH, "r") as file:
-                return json.load(file)
-    except (OSError, json.JSONDecodeError) as e:
-        print(f"Failed to load player data: {e}")
-    return None
+from utils import load_json, DataPath
 
 
 def save_player(player_data):
     """Save the player profile to a JSON file."""
-    with open(DATA_PATH, "w") as file:
+    path = str(DataPath.PLAYER.value)
+    with open(path, "w") as file:
         json.dump(player_data, file, indent=4)
 
 
 def create_player(name):
     """Create a new player profile."""
+    assets = load_json(DataPath.ASSETS)
+    debit_card = assets[0]
+    debit_card["current_value"] = debit_card["initial_value"]
+
     player_data = {
         "player_id": str(uuid.uuid4()),  # Generate a unique ID for the player
         "name": name,
         "age": 16,
-        "health": 100,
-        "happiness": 100,
-        "financial_status": 0,
+        "health": 90,
+        "happiness": 50,
+        "bank": 200,
+        "income": 0,
         "skills": {
             "education": "High School",
             "work_experience": 0
         },
         "education_level": "None",
+        "occupation": "None",
+        "assets": [debit_card],
+        "liabilities": [],
+        "status_effects": [],
         "game_progress": {}
     }
+
     save_player(player_data)
     return player_data

@@ -1,16 +1,9 @@
 import random
-import json
-from utils import prompt_user
+
+from utils import prompt_user, load_json, DataPath
 
 
-def load_events():
-    """Load random events from the events.json file."""
-    with open("../data/events.json", "r") as file:
-        events = json.load(file)
-    return events
-
-
-def trigger_random_event(player_data, events):
+def trigger_random_events(player_data, events):
     """Trigger a random event based on probability and age range."""
     for event in events:
         if event['age_range'][0] <= player_data['age'] <= event['age_range'][1]:
@@ -26,17 +19,11 @@ def trigger_random_event(player_data, events):
 def early_life_phase(player_data):
     """Handles decisions and events in the Early Life phase (Ages 16-22)."""
     print("Early Life Phase")
-    player_data['age'] += 1
 
     if player_data['age'] == 18:
         # Educational decision at age 18
         prompt = "Choose your educational path:"
-        options = [
-            "High School Only (Immediate work)", 
-            "Trade school; 2 years; Cost: $2000",
-            "University/College; 4 years; Cost: $40000",
-            "Bootcamp; 1 year; Cost: $10000"
-        ]
+        options = load_json(DataPath.EDUCATION)
         choice = prompt_user(prompt, options)
 
         # TODO:
@@ -44,39 +31,26 @@ def early_life_phase(player_data):
             1. Add opportunities for college to vary in price (scholarships, tuition assistance, etc.)
             2. Add specific trade school routes that also vary in price (electrician, plumber, welder, etc.)
         """
+
         match choice:
 
-            case "1":
+            case "High School":
                 """Start working immediately"""
-                hs_options = ["Retail Associate", "Construction Worker", "Food Service Employee", "Warehouse Worker"]
-                occupation = prompt_user("Choose your career path:", hs_options)
-                player_data['skills']['education'] = "High School"
+                occupations = load_json(DataPath.OCCUPATIONS)
+                occupation = prompt_user("Choose your career path:", occupations[0]["occupations"])
                 player_data['occupation'] = occupation
-                player_data['income'] = 35000
+                player_data['income'] = occupation["Income"]["Starting"]
 
-            case "2":
-                """Trade school route; 2 years; Cost: $2000"""
-                player_data['skills']['education'] = "Trade School"
-                player_data['financial_status'] -= 2000  # Cost of trade school
-
-            case "3":
-                """College route; 4 years; Cost: $40000"""
-                player_data['skills']['education'] = "College"
-                player_data['financial_status'] -= 40000  # Cost of college
-
-            case "4":
-                """Bootcamp route; 1 year; Cost: $10000"""
-                player_data['skills']['education'] = "Bootcamp"
-                player_data['financial_status'] -= 10000  # Cost of bootcamp
+            case _:
+                player_data['skills']['education'] = choice["id"]
+                player_data['bank'] -= choice["Cost"]
 
     # TODO: Example decision - part-time job income during education
     # if player_data['age'] < 23 and player_data['skills']['education'] in ["Trade School", "College"]:
-    #     player_data['financial_status'] += 1000
+    #     player_data['bank'] += 1000
     #     player_data['happiness'] -= 5  # Slight happiness decrease due to work
 
-    print(f"Age: {player_data['age']}, "
-          f"Financial Status: ${player_data['financial_status']}, "
-          f"Happiness: {player_data['happiness']}")
+    print(f'Age: {player_data["age"]}, Bank: ${player_data["bank"]}, Happiness: {player_data["happiness"]}')
 
     return player_data
 
@@ -84,85 +58,31 @@ def early_life_phase(player_data):
 def young_adult_phase(player_data):
     """Handles decisions and events in the Young Adult phase (Ages 23-30)."""
     print("Young Adult Phase")
-    player_data['age'] += 1
 
-    if player_data['age'] == 24:
-        """New occupation decision at 24"""
-
-        """
-            Occupations available at 24 are based on education decision at 18.
-        """
+    if player_data["age"] == 23:
+        # Career decision at age 23
         prompt = "Choose your career path:"
-        options = {
-            "High School": ["Retail Associate", "Construction Worker", "Food Service Employee", "Warehouse Worker"],
-            "Trade School": ["Technician", "Skilled Trade Worker"],
-            "College": ["Software Engineer", "Accountant", "Manager", "Business Analyst"],
-            "Bootcamp": ["Junior Developer", "IT Support Specialist"]
-        }
+        occupations = load_json(DataPath.OCCUPATIONS)
 
         match player_data['skills']['education']:
-
             case "High School":
-                choice = prompt_user(prompt, options["High School"])
-
-                match choice:
-                    case "Retail Associate":
-                        """Retail Associate; """
-                        player_data['financial_status'] += 20000
-                        player_data['happiness'] += 5
-
-                    case "Construction Worker":
-                        player_data['financial_status'] += 25000
-                        player_data['happiness'] -= 10
+                choice = prompt_user(prompt, occupations[0]["occupations"])
 
             case "Trade School":
-                print("Choose your career path:")
-                print("1. Technician")
-                print("2. Skilled Trade Worker")
-                choice = input("Enter the number of your choice: ")
-                while choice != "1" and choice != "2":  # Input validation
-                    choice = input("Enter the number of your choice (1 or 2): ")
-                if choice == "1":
-                    player_data['financial_status'] += 30000
-                    player_data['happiness'] += 10
-                elif choice == "2":
-                    player_data['financial_status'] += 35000
-                    player_data['happiness'] -= 5
-
-            case "College":
-                print("Choose your career path:")
-                print("1. Software Engineer")
-                print("2. Accountant")
-                choice = input("Enter the number of your choice: ")
-
-                while choice != "1" and choice != "2":  # Input validation
-                    choice = input("Enter the number of your choice (1 or 2): ")
-
-                if choice == "1":
-                    player_data['financial_status'] += 50000
-                    player_data['happiness'] += 10
-                elif choice == "2":
-                    player_data['financial_status'] += 55000
-                    player_data['happiness'] += 5
+                choice = prompt_user(prompt, occupations[1]["occupations"])
+                
+            case "University/College":
+                choice = prompt_user(prompt, occupations[2]["occupations"])
 
             case "Bootcamp":
-                print("Choose your career path:")
-                print("1. Junior Developer")
-                print("2. IT Support Specialist")
-                choice = input("Enter the number of your choice: ")
-
-                while choice != "1" and choice != "2":  # Input validation
-                    choice = input("Enter the number of your choice (1 or 2): ")
-
-                if choice == "1":
-                    player_data['financial_status'] += 60000
-                    player_data['happiness'] += 15
-                elif choice == "2":
-                    player_data['financial_status'] += 40000
-                    player_data['happiness'] += 10
+                choice = prompt_user(prompt, occupations[3]["occupations"])
+            
+        player_data['occupation'] = choice["id"]
+        player_data['bank'] += choice["Income"]["Starting"]
+        player_data['income'] = choice["Income"]["Starting"]
 
     print(f"Age: {player_data['age']}, "
-          f"Financial Status: ${player_data['financial_status']}, "
+          f"Bank: ${player_data['bank']}, "
           f"Happiness: {player_data['happiness']}")
 
     return player_data
@@ -171,31 +91,20 @@ def young_adult_phase(player_data):
 def mid_life_phase(player_data):
     """Handles decisions and events in the Mid-Life phase (Ages 31-50)."""
     print("Mid-Life Phase")
-    player_data['age'] += 1
 
     if player_data['age'] == 35:
-        print("Investment Opportunity:")
-        print("1. Buy Stocks (High risk, high return)")
-        print("2. Invest in Real Estate (Moderate risk, steady return)")
-        print("3. Start a Retirement Plan (Low risk, secure return)")
-        choice = input("Enter the number of your choice: ")
+        """Investment decision at age 35"""
 
-        while choice != "1" and choice != "2" and choice != "3":
-            choice = input("Enter the number of your choice (1, 2, or 3): ")
+        investments = load_json(DataPath.INVESTMENT)
+        choice = prompt_user("Investment Opportunity: ", investments)
 
-        match choice:
-            case "1":
-                player_data['financial_status'] -= 10000  # Investment cost
-                player_data['financial_status'] += random.randint(5000, 20000)  # Variable return
-            case "2":
-                player_data['financial_status'] -= 20000
-                player_data['financial_status'] += random.randint(15000, 25000)
-            case "3":
-                player_data['financial_status'] -= 5000
-                player_data['financial_status'] += 7000
+        player_data["assets"].append(choice)
+        
+        if choice["id"] == "Stocks":
+            player_data["bank"] += choice["return"] * random.uniform(0.8, 1.25)
 
     print(f"Age: {player_data['age']}, "
-          f"Financial Status: ${player_data['financial_status']}")
+          f"Bank: ${player_data['bank']}")
 
     return player_data
 
